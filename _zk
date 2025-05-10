@@ -1,0 +1,225 @@
+#compdef zk
+
+# Directory fallback for file completion
+: ${ZK_NOTEBOOK_DIR:=$HOME/memo}
+
+# Retrieve aliases from zk config and treat them as commands
+_zk_aliases() {
+  local -a aliases
+  aliases=("${(@f)$(zk config -l aliases -q 2>/dev/null)}")
+  _describe 'alias' aliases
+}
+
+# Optional: filters
+_zk_filters() {
+  local -a filters
+  filters=("${(@f)$(zk config -l filters -q 2>/dev/null)}")
+  _describe 'filter' filters
+}
+
+# Optional: extras
+_zk_extras() {
+  local -a extras
+  extras=("${(@f)$(zk config -l extras -q 2>/dev/null)}")
+  _describe 'extra' extras
+}
+
+_zk_edit() {
+    local -a args
+    args=(
+      '-h:Show context-sensitive help'
+      '--notebook-dir=:Turn off notebook auto-discovery and set manually the notebook where commands are run'
+      '-W:Run as if zk was started in <PATH> instead of the current working directory'
+      '--no-input:Never prompt or ask for confirmation'
+      '-f:Pretty print the list using a custom template or one of the predefined formats: oneline, short, medium, long, full, json, jsonl'
+      '--header=:Arbitrary text printed at the start of the list'
+      '--footer=:Arbitrary text printed at the end of the list'
+      '-d:Print notes delimited by the given separator'
+      '-0:Print notes delimited by ASCII NUL characters (useful with xargs -0)'
+      '-P:Do not pipe output into a pager'
+      '-q:Do not print the total number of notes found'
+      '-i:Select notes interactively with fzf'
+      '-n:Limit the number of notes found'
+      '-m:Terms to search for in the notes'
+      '-M:Text matching strategy among: fts, re, exact'
+      '-x:Ignore notes matching the given path, including its descendants'
+      '-t:Find notes tagged with the given tags'
+      '--mention=:Find notes mentioning the title of the given ones'
+      '--mentioned-by=:Find notes whose title is mentioned in the given ones'
+      '-l:Find notes which are linking to the given ones'
+      '--no-link-to=:Find notes which are not linking to the given notes'
+      '-L:Find notes which are linked by the given ones'
+      '--no-linked-by=:Find notes which are not linked by the given ones'
+      '--orphan:Find notes which are not linked by any other note'
+      '--tagless:Find notes which have no tags'
+      '--related=:Find notes which might be related to the given ones'
+      '--max-distance=:Maximum distance between two linked notes'
+      '-r:Follow links recursively'
+      '--created=:Find notes created on the given date'
+      '--created-before=:Find notes created before the given date'
+      '--created-after=:Find notes created after the given date'
+      '--modified=:Find notes modified on the given date'
+      '--modified-before=:Find notes modified before the given date'
+      '--modified-after=:Find notes modified after the given date'
+   )
+    _describe 'edit' args
+}
+
+_zk_list() {
+    local -a args
+    args=(
+        '-h:Show context-sensitive help'
+        '--notebook-dir=:Turn off notebook auto-discovery and set manually the notebook where commands are run'
+        '-W:Run as if zk was started in <PATH> instead of the current working directory'
+        '--no-input:Never prompt or ask for confirmation'
+        '-f:Pretty print the list using a custom template or one of the predefined formats: oneline, short, medium, long, full, json, jsonl'
+        '--header=:Arbitrary text printed at the start of the list'
+        '--footer=:Arbitrary text printed at the end of the list'
+        '-d:Print notes delimited by the given separator'
+        '-0:Print notes delimited by ASCII NUL characters (useful with xargs -0)'
+        '-P:Do not pipe output into a pager'
+        '-q:Do not print the total number of notes found'
+        '-i:Select notes interactively with fzf'
+        '-n:Limit the number of notes found'
+        '-m:Terms to search for in the notes'
+        '-M:Text matching strategy among: fts, re, exact'
+        '-x:Ignore notes matching the given path, including its descendants'
+        '-t:Find notes tagged with the given tags'
+        '--mention=:Find notes mentioning the title of the given ones'
+        '--mentioned-by=:Find notes whose title is mentioned in the given ones'
+        '-l:Find notes which are linking to the given ones'
+        '--no-link-to=:Find notes which are not linking to the given notes'
+        '-L:Find notes which are linked by the given ones'
+        '--no-linked-by=:Find notes which are not linked by the given ones'
+        '--orphan:Find notes which are not linked by any other note'
+        '--tagless:Find notes which have no tags'
+        '--related=:Find notes which might be related to the given ones'
+        '--max-distance=:Maximum distance between two linked notes'
+        '-r:Follow links recursively'
+        '--created=:Find notes created on the given date'
+        '--created-before=:Find notes created before the given date'
+        '--created-after=:Find notes created after the given date'
+        '--modified=:Find notes modified on the given date'
+        '--modified-before=:Find notes modified before the given date'
+        '--modified-after=:Find notes modified after the given date'
+        '-s:Order the notes by the given criterion'
+    )
+    _describe 'args' args
+}
+
+_zk_new() {
+    local -a args
+    args=(
+        '-h:Show context-sensitive help'
+        '-W:Run as if zk was started in <PATH> instead of the current working directory'
+        '--no-input=:Never prompt or ask for confirmation'
+        '-i:Read contents from standard input'
+        '-t:Title of the new note'
+        '--date=:Set the current date'
+        '-g:Name of the config group this note belongs to (takes precedence over the config of the directory)'
+        '--extra=:Extra variables passed to the templates'
+        '--template=:Custom template used to render the note'
+        '-p:Print the path of the created note instead of editing it'
+        '-n:Do not actually create the note; print its content on stdout and the generated path on stderr'
+        '--id=:Skip id generation and use the provided value'
+    )
+    _describe 'args' args
+}
+
+_zk_tag() {
+    local -a args
+    args=(
+        '-h:Show context-sensitive help'
+        '--notebook-dir=:Turn off notebook auto-discovery and set manually the notebook where commands are run'
+        '-W:Run as if zk was started in <PATH> instead of the current working directory'
+        '--no-input=:Never prompt or ask for confirmation'
+    )
+    _describe 'args' args
+}
+
+_zk_index() {
+    local -a args
+    args=(
+        '-h:Show context-sensitive help'
+        '--notebook-dir=:Turn off notebook auto-discovery and set manually the notebook where commands are run'
+        '-W:Run as if zk was started in <PATH> instead of the current working directory'
+        '--no-input=:Never prompt or ask for confirmation'
+        '-f:Force indexing all the notes'
+        '-v:Print detailed information about the indexing process'
+        '-q:Do not print statistics nor progress'
+    )
+    _describe 'args' args
+}
+
+# List of all zk subcommands
+local -a subcommands
+# Add aliases to the list of commands
+subcommands+=("${(@f)$(zk config -l aliases -q 2>/dev/null)}")
+subcommands+=(
+  'init:Create a new notebook in the given directory'
+  'index:Index the notes to be searchable'
+  'config:List configuration parameters'
+  'new:Create a new note in the given notebook directory'
+  'list:List notes matching the given criteria'
+  'graph:Produce a graph of the notes matching the given criteria'
+  'edit:Edit notes matching the given criteria'
+  'tag:Manage the note tags'
+)
+
+# Determine subcommand position
+local curcontext="$curcontext" state
+local -a expl
+
+# Completion position
+local -a cmdline
+cmdline=("${words[@]}")
+local word_count=${#cmdline[@]}
+
+# First argument is the subcommand
+if (( CURRENT == 2 )); then
+  _describe 'zk command' subcommands
+  return
+fi
+
+# Subcommand is second word
+local subcommand=${words[2]}
+
+case $subcommand in
+  new)
+    _alternative \
+      '_zk_new' \
+      '_files -W $ZK_NOTEBOOK_DIR -/'
+    ;;
+  list)
+    _alternative \
+      '_zk_list'
+    ;;
+  graph)
+    _alternative \
+      '_zk_filters' \
+    ;;
+  edit)
+    _alternative \
+      '_zk_edit' \
+      '_files -W $ZK_NOTEBOOK_DIR -g "*.md"'
+    ;;
+  tag)
+    _alternative \
+      '_zk_tag'
+    ;;
+  init)
+    _alternative \
+      '_zk_tag'
+    ;;
+  index)
+    _alternative \
+      '_zk_index'
+    ;;
+  config)
+    ;;
+  *)
+    # Fallback: just complete files
+    _files -W $ZK_NOTEBOOK_DIR -g '*.md'
+    ;;
+esac
+
