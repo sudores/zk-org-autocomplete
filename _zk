@@ -192,7 +192,8 @@ case $subcommand in
     ;;
   list)
     _alternative \
-      '_zk_list'
+      '_zk_list' \
+      '_files -W $ZK_NOTEBOOK_DIR -/'
     ;;
   graph)
     _alternative \
