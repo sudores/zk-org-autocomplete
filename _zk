@@ -219,7 +219,7 @@ case $subcommand in
   config)
     ;;
   cd)
-      _dir_list
+    _files -W $ZK_NOTEBOOK_DIR -/
       ;;
   rng)
       ;;
