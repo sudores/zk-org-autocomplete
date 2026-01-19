@@ -219,7 +219,8 @@ case $subcommand in
   config)
     ;;
   cd)
-    _files -W $ZK_NOTEBOOK_DIR -/
+    _arguments \
+      "*:directory:_files -/ -W $ZK_NOTEBOOK_DIR"
       ;;
   rng)
       ;;
