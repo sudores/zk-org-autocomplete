@@ -218,6 +218,11 @@ case $subcommand in
     ;;
   config)
     ;;
+  cd)
+      _dir_list
+      ;;
+  rng)
+      ;;
   *)
     # Fallback: just complete files
     _files -W $ZK_NOTEBOOK_DIR -g '*.md'
